@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <script src="http://cdn.hcharts.cn/jquery/jquery-1.8.3.min.js"></script>
+    <script src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
+    <script type="text/javascript">
+        //遍历checkgroup下面的多选框的值,返回一个array类型的dataList
+        //然后根据dataList,传给后端
+        function getCheckboxValueList() {
+            var checkBoxes = document.getElementById("checkgroup1").children;
+            var dataList = [];
+            for (var i = 0; i < checkBoxes.length; i++) {
+                var box = checkBoxes[i];
+                if (box.type == "checkbox") {
+                    if (box.checked) {
+                        dataList.push(box.value);
+                    }
+                }
+            }
+            return dataList;
+        }
+
+        function getPressValue() {
+            var request = new XMLHttpRequest();
+            request.open('GET', '/getdata1', false);
+            request.send();
+            return request;
+        }
+
+        function buildCharts(response) {
+            $('#pgpg').highcharts({                   //图表展示容器，与div的id保持一致
+                chart: {
+                    type: 'line'                         //指定图表的类型，默认是折线图（line）
+                },
+                title: {
+                    text: 'pgpgin/s & pgpgout/s'      //指定图表标题
+                },
+
+                subtitle: {
+                    text: 'subTitle'
+                },
+                xAxis: {
+                    categories: response.times  //指定x轴分组,这里变成时间
+                },
+                yAxis: {
+                    title: {
+                        text: 'KB'                  //指定y轴的标题
+                    }
+                },
+                plotOptions: {
+                    line: {
+                        dataLabels: {
+                            enabled: true            //数据顶端是否显示数值
+                        }
+                    }
+                },
+                series: [{                                 //指定数据列
+                    name: 'pgpgin',                          //数据列名
+                    data: response.pgpgin                        //数据
+                }, {
+                    name: 'pgpgout',
+                    data: response.pgpgout
+                }],
+                credits: {
+                    enabled: false
+                }
+            });
+
+            $('#faultAndMajflt').highcharts({                   //图表展示容器，与div的id保持一致
+                chart: {
+                    type: 'line'                         //指定图表的类型，默认是折线图（line）
+                },
+                title: {
+                    text: 'fault/s & majflt/s'      //指定图表标题
+                },
+
+                subtitle: {
+                    text: 'subTitle'
+                },
+                xAxis: {
+                    categories: response.times  //指定x轴分组,这里变成时间
+                },
+                yAxis: {
+                    title: {
+                        text: 'KB'                  //指定y轴的标题
+                    }
+                },
+                plotOptions: {
+                    line: {
+                        dataLabels: {
+                            enabled: true            //数据顶端是否显示数值
+                        }
+                    }
+                },
+                series: [{                                 //指定数据列
+                    name: 'fault',                          //数据列名
+                    data: response.fault                        //数据
+                }, {
+                    name: 'majflt',
+                    data: response.majflt
+                }],
+                credits: {
+                    enabled: false
+                }
+            });
+
+            $('#pgfree').highcharts({                   //图表展示容器，与div的id保持一致
+                chart: {
+                    type: 'line'                         //指定图表的类型，默认是折线图（line）
+                },
+                title: {
+                    text: 'pgfree/s'      //指定图表标题
+                },
+
+                subtitle: {
+                    text: 'subTitle'
+                },
+                xAxis: {
+                    categories: response.times  //指定x轴分组,这里变成时间
+                },
+                yAxis: {
+                    title: {
+                        text: 'KB'                  //指定y轴的标题
+                    }
+                },
+                plotOptions: {
+                    line: {
+                        dataLabels: {
+                            enabled: true            //数据顶端是否显示数值
+                        }
+                    }
+                },
+                series: [{                                 //指定数据列
+                    name: 'fault',                          //数据列名
+                    data: response.pgfree                        //数据
+                }],
+                credits: {
+                    enabled: false
+                }
+            });
+
+            $('#pgscankAndPgscandAndPgsteal').highcharts({                   //图表展示容器，与div的id保持一致
+                chart: {
+                    type: 'line'                         //指定图表的类型，默认是折线图（line）
+                },
+                title: {
+                    text: 'pgscank/s & pgscand/s & pgsteal/s'      //指定图表标题
+                },
+
+                subtitle: {
+                    text: 'pgscank/s : 每秒被kswapd扫描的页数'
+                },
+                xAxis: {
+                    categories: response.times  //指定x轴分组,这里变成时间
+                },
+                yAxis: {
+                    title: {
+                        text: 'KB'                  //指定y轴的标题
+                    }
+                },
+                plotOptions: {
+                    line: {
+                        dataLabels: {
+                            enabled: true            //数据顶端是否显示数值
+                        }
+                    }
+                },
+                series: [{                                 //指定数据列
+                    name: 'pgscank',                          //数据列名
+                    data: response.pgscank                        //数据
+                }, {
+                    name: 'pgscand',
+                    data: response.pgscand
+                }, {
+                    name: 'pgsteal',
+                    data: response.pgsteal
+                }],
+                credits: {
+                    enabled: false
+                }
+            });
+
+            $('#vmeff').highcharts({                   //图表展示容器，与div的id保持一致
+                chart: {
+                    type: 'line'                         //指定图表的类型，默认是折线图（line）
+                },
+                title: {
+                    text: '%vmeff'      //指定图表标题
+                },
+
+                subtitle: {
+                    text: '每秒清除的页(pgsteal)占总扫描页(pgscank+pgscand)的百分比'
+                },
+                xAxis: {
+                    categories: response.times  //指定x轴分组,这里变成时间
+                },
+                yAxis: {
+                    title: {
+                        text: 'KB'                  //指定y轴的标题
+                    }
+                },
+                plotOptions: {
+                    line: {
+                        dataLabels: {
+                            enabled: true            //数据顶端是否显示数值
+                        }
+                    }
+                },
+                series: [{                                 //指定数据列
+                    name: 'pgscank',                          //数据列名
+                    data: response.vmeff                        //数据
+                }],
+                credits: {
+                    enabled: false
+                }
+            });
+
+        }
+
+        function createTable() {
+            var checkedBoxNameList = getCheckboxValueList();
+            var checkBoxNameList = ['pgpg', 'faultAndMajflt', 'pgfree', 'pgscankAndPgscandAndPgsteal', 'vmeff']
+            var response = JSON.parse(getPressValue().responseText);
+            for (i in checkBoxNameList) {
+                var checkBoxId = checkBoxNameList[i];
+                var divId = '#' + checkBoxId;
+                if ($.inArray(checkBoxId, checkedBoxNameList) == -1) {
+                    $(divId).hide();
+                }
+                else {
+                    $(divId).show();
+                }
+            }
+            buildCharts(response);
+        }
+
+        function selectAll() {
+            var checkBoxes = document.getElementById("checkgroup1").children;
+            var dataList = [];
+            for (var i = 0; i < checkBoxes.length; i++) {
+                var box = checkBoxes[i]
+                if (box.type == "checkbox") {
+                    box.checked = 1;
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+<!--<div id="checkgroup1">-->
+<!--<input type="checkbox" value="pgpg">pgpgin/s & pgpgout/s-->
+<!--<input type="checkbox" value="faultAndMajflt">fault/s & majflt/s-->
+<!--<input type="checkbox" value="pgfree">pgfree/s-->
+<!--<input type="checkbox" value="pgscankAndPgscandAndPgsteal">pgscank/s & pgscand/s & pgsteal/s-->
+<!--<input type="checkbox" value="vmeff">%vmeff-->
+<!--<input type="button" value="creat" onclick="createTable()">-->
+<!--<input type="button" value="全选" onclick="selectAll()">-->
+<!--</div>-->
+<div id="checkgroup2">
+    <form class="form-inline">
+        <label class="checkbox" id="checkgroup1">
+            <input type="checkbox" value="pgpg">pgpgin/s & pgpgout/s
+            <input type="checkbox" value="faultAndMajflt">fault/s & majflt/s
+            <input type="checkbox" value="pgfree">pgfree/s
+            <input type="checkbox" value="pgscankAndPgscandAndPgsteal">pgscank/s & pgscand/s & pgsteal/s
+            <input type="checkbox" value="vmeff">%vmeff
+            <input type="button" class="btn-primary" value="creat" onclick="createTable()">
+            <input type="button" class="btn-primary" value="全选" onclick="selectAll()">
+        </label>
+    </form>
+</div>
+<div>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>选项</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr id="">
+            <td style="width: 20%"><input type="checkbox" value="pgpg">pgpgin/s & pgpgout/s</td>
+            <td style="width: 20%"><input type="checkbox" value="faultAndMajflt"> pp</td>
+            <td style="width: 20%"><input type="checkbox" value="pgfree"> pp</td>
+            <td style="width: 20%"><input type="checkbox" value="pgscankAndPgscandAndPgsteal"> pp</td>
+            <td style="width: 20%"><input type="checkbox" value="vmeff"> %vmeff</td>
+        </tr>
+        <tr>
+            <td><input type="button" class="btn-primary" value="creat" onclick="createTable()"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div id="pgpg" style="min-width: 800px;height: 400px"></div>
+<div id="faultAndMajflt" style="min-width: 800px;height: 400px"></div>
+<div id="pgfree" style="min-width: 800px;height: 400px"></div>
+<div id="pgscankAndPgscandAndPgsteal" style="min-width: 800px;height: 400px"></div>
+<div id="vmeff" style="min-width: 800px;height: 400px"></div>
+</body>
+</html>
