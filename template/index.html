@@ -23,6 +23,41 @@
             return dataList;
         }
 
+        function selectAll() {
+            var checkBoxes = document.getElementById("checkgroup1").children;
+            for (var i = 0; i < checkBoxes.length; i++) {
+                var box = checkBoxes[i];
+                if (box.type == "checkbox") {
+                    box.checked = 1;
+                }
+            }
+        }
+
+        function getCheckboxValueList1() {
+            var checkBoxes = document.getElementById("checkboxGroup").children;
+            var dataList = [];
+            for (var i = 0; i < checkBoxes.length; i++) {
+                var box = checkBoxes[i].children;
+                if (box[0].type == "checkbox") {
+                    if (box[0].checked) {
+                        dataList.push(box[0].value);
+                    }
+                }
+            }
+            return dataList;
+        }
+
+        function selectAll1() {
+            //这样选出来的只是TD,所以下面还要再用一次children
+            var checkboxes = document.getElementById("checkboxGroup").children;
+            for (var i = 0; i < checkboxes.length; i++) {
+                var box = checkboxes[i].children;
+                if (box[0].type == "checkbox") {
+                    box[0].checked = 1;
+                }
+            }
+        }
+
         function getPressValue() {
             var request = new XMLHttpRequest();
             request.open('GET', '/getdata1', false);
@@ -221,7 +256,7 @@
         }
 
         function createTable() {
-            var checkedBoxNameList = getCheckboxValueList();
+            var checkedBoxNameList = getCheckboxValueList1();
             var checkBoxNameList = ['pgpg', 'faultAndMajflt', 'pgfree', 'pgscankAndPgscandAndPgsteal', 'vmeff']
             var response = JSON.parse(getPressValue().responseText);
             for (i in checkBoxNameList) {
@@ -237,16 +272,6 @@
             buildCharts(response);
         }
 
-        function selectAll() {
-            var checkBoxes = document.getElementById("checkgroup1").children;
-            var dataList = [];
-            for (var i = 0; i < checkBoxes.length; i++) {
-                var box = checkBoxes[i]
-                if (box.type == "checkbox") {
-                    box.checked = 1;
-                }
-            }
-        }
     </script>
 </head>
 <body>
@@ -259,19 +284,19 @@
 <!--<input type="button" value="creat" onclick="createTable()">-->
 <!--<input type="button" value="全选" onclick="selectAll()">-->
 <!--</div>-->
-<div id="checkgroup2">
-    <form class="form-inline">
-        <label class="checkbox" id="checkgroup1">
-            <input type="checkbox" value="pgpg">pgpgin/s & pgpgout/s
-            <input type="checkbox" value="faultAndMajflt">fault/s & majflt/s
-            <input type="checkbox" value="pgfree">pgfree/s
-            <input type="checkbox" value="pgscankAndPgscandAndPgsteal">pgscank/s & pgscand/s & pgsteal/s
-            <input type="checkbox" value="vmeff">%vmeff
-            <input type="button" class="btn-primary" value="creat" onclick="createTable()">
-            <input type="button" class="btn-primary" value="全选" onclick="selectAll()">
-        </label>
-    </form>
-</div>
+<!--<div id="checkgroup2">-->
+    <!--<form class="form-inline">-->
+        <!--<label class="checkbox" id="checkgroup1">-->
+            <!--<input type="checkbox" value="pgpg">pgpgin/s & pgpgout/s-->
+            <!--<input type="checkbox" value="faultAndMajflt">fault/s & majflt/s-->
+            <!--<input type="checkbox" value="pgfree">pgfree/s-->
+            <!--<input type="checkbox" value="pgscankAndPgscandAndPgsteal">pgscank/s & pgscand/s & pgsteal/s-->
+            <!--<input type="checkbox" value="vmeff">%vmeff-->
+            <!--<input type="button" class="btn-primary" value="creat" onclick="createTable()">-->
+            <!--<input type="button" class="btn-primary" value="全选" onclick="selectAll()">-->
+        <!--</label>-->
+    <!--</form>-->
+<!--</div>-->
 <div>
     <table class="table table-striped">
         <thead>
@@ -280,15 +305,16 @@
         </tr>
         </thead>
         <tbody>
-        <tr id="">
+        <tr id="checkboxGroup">
             <td style="width: 20%"><input type="checkbox" value="pgpg">pgpgin/s & pgpgout/s</td>
-            <td style="width: 20%"><input type="checkbox" value="faultAndMajflt"> pp</td>
-            <td style="width: 20%"><input type="checkbox" value="pgfree"> pp</td>
-            <td style="width: 20%"><input type="checkbox" value="pgscankAndPgscandAndPgsteal"> pp</td>
-            <td style="width: 20%"><input type="checkbox" value="vmeff"> %vmeff</td>
+            <td style="width: 20%"><input type="checkbox" value="faultAndMajflt">fault/s & majflt/s</td>
+            <td style="width: 20%"><input type="checkbox" value="pgfree">pgfree/s</td>
+            <td style="width: 20%"><input type="checkbox" value="pgscankAndPgscandAndPgsteal">pgscank/s & pgscand/s & pgsteal/s</td>
+            <td style="width: 20%"><input type="checkbox" value="vmeff">%vmeff</td>
         </tr>
         <tr>
-            <td><input type="button" class="btn-primary" value="creat" onclick="createTable()"></td>
+            <td><input type="button" class="btn-primary" value="creat1" onclick="createTable()"></td>
+            <td><input type="button" class="btn-primary" value="all" onclick="selectAll1()"></td>
         </tr>
         </tbody>
     </table>
