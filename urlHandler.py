@@ -12,6 +12,9 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 __author__ = 'KiddoMa'
 
+class getDemo(tornado.web.RequestHandler):
+    def get(self):
+        self.render("demo.html")
 
 class showHandler(tornado.web.RequestHandler):
     def get(self):
