@@ -11,16 +11,20 @@ sys.setdefaultencoding('utf-8')
 
 try:
     startTime = "05:09:01"
+    endTime = "05:14:02"
     df = pd.read_csv(r'/Users/KiddoMa/Documents/pgpginout.csv', encoding='utf-8')
     name_list = [r'times', r'pgpgin', r'pgpgout', r'fault', r'majflt', r'pgfree', r'pgscank', r'pgscand', r'pgsteal',
                  r'vmeff']
     d = dict()
     #时间段传一个 类似 05:09:01 就能够判断时间
-    good = df[df["times"]>startTime]
+    good = df[startTime<df["times"]]
+    goods = good[good["times"]<=endTime]
     print df['pgpgin'].tolist()
     print "==============="
     print good['times'].tolist()
     print good['pgpgin'].tolist()
+    print goods["times"].tolist()
+    print goods
     # for name in name_list:
     #     d[name] = df[name].tolist()
     # print json.dumps(d)

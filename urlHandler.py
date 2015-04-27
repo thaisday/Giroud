@@ -12,10 +12,6 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 __author__ = 'KiddoMa'
 
-class getDemo(tornado.web.RequestHandler):
-    def get(self):
-        self.render("demo.html")
-
 class showHandler(tornado.web.RequestHandler):
     def get(self):
         pass
@@ -29,7 +25,9 @@ class showHandler1(tornado.web.RequestHandler):
         pass
 
 class getDataHandler1(tornado.web.RequestHandler):
-    def get(self):
+    def post(self):
+        startTime = self.get_argument('startTime')
+        endTime = self.get_argument('endTime')
         try:
             df = pd.read_csv(r'/Users/KiddoMa/Documents/pgpginout.csv',encoding='utf-8')
             name_list = [r'times',r'pgpgin',r'pgpgout',r'fault',r'majflt',r'pgfree',r'pgscank',r'pgscand',r'pgsteal',r'vmeff']

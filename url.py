@@ -14,5 +14,4 @@ url = [
     (r'/result1',showHandler1),
     (r'/getdata',getDataHandler),
     (r'/getdata1',getDataHandler1),
-    (r'/demo',getDemo),
 ]
