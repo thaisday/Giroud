@@ -274,6 +274,18 @@
             buildCharts(response);
         }
 
+        function monitor(){
+            var monitor = document.getElementById("monitor");
+            if(monitor.value == "开始监控"){
+                monitor.class = "btn btn-danger";
+                monitor.value = "监控中";
+            }
+            else{
+                monitor.class = "btn-primary";
+                monitor.value = "开始监控";
+            }
+        }
+
     </script>
 </head>
 <body>
@@ -281,7 +293,7 @@
     <table class="table table-striped">
         <thead>
         <tr>
-            <th>选项</th>
+            <th>服务器监控控制台</th>
         </tr>
         </thead>
         <tbody>
@@ -301,10 +313,10 @@
             <td style="width: 20%"><input type="checkbox" value="vmeff">%vmeff</td>
         </tr>
         <tr>
-            <td><input type="button" class="btn-primary" value="creat1" onclick="createTable()"></td>
-            <td><input type="button" class="btn-primary" value="all" onclick="selectOption('all')"></td>
-            <td><input type="button" class="btn-primary" value="unall" onclick="selectOption('unall')"></td>
-            <td><input type="button" class="btn-primary" value="monitor" onclick=""></td>
+            <td><input type="button" class="btn-primary" value="查看" onclick="createTable()"></td>
+            <td><input type="button" class="btn-primary" value="全选" onclick="selectOption('all')"></td>
+            <td><input type="button" class="btn-primary" value="全不选" onclick="selectOption('unall')"></td>
+            <td><input id="monitor" type="button" class="btn-primary" value="开始监控" onclick="monitor()"></td>
         </tr>
         </tbody>
     </table>
