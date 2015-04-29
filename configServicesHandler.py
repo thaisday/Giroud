@@ -1,5 +1,6 @@
 # coding=utf-8
 import tornado
+from tornado import template
 
 __author__ = 'KiddoMa'
 
@@ -14,6 +15,13 @@ class getServersHandler(tornado.web.RequestHandler):
             ipList = {}
             for name in root.find('servers').getchildren():
                 ipList[name.getchildren()[0].text] = name.getchildren()[1].text
-            self.render('configServices.html',ipList=ipList)
+            loader = template.Loader('./template')
+            self.write(loader.load('serversCheckbox.html').generate(ipList=ipList))
+        # self.write(loader.load('result.html').generate(resultList=resultList))
+        #     self.render('serversCheckbox.html',ipList=ipList)
         except Exception as e:
             print e
+
+class getTestHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.render('test.html')

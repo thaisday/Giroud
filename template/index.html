@@ -3,8 +3,19 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title></title>
-    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.2/css/bootstrap.min.css">
-    <script src="http://cdn.hcharts.cn/jquery/jquery-1.8.3.min.js"></script>
+
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+    <!-- 可选的Bootstrap主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <!--<script src="http://cdn.hcharts.cn/jquery/jquery-1.8.3.min.js"></script>-->
 
     <link type="text/css" href="../static/css/jquery-ui-1.8.17.custom.css" rel="stylesheet"/>
     <link type="text/css" href="../static/css/jquery-ui-timepicker-addon.css" rel="stylesheet"/>
@@ -64,8 +75,8 @@
             var startTime = $('input[name="startTime"]')[0].value;
             var endTime = $('input[name="endTime"]')[0].value;
             var form = new FormData();
-            form.append("startTime",startTime);
-            form.append("endTime",endTime);
+            form.append("startTime", startTime);
+            form.append("endTime", endTime);
             request.open('POST', '/getdata1', false);
             request.send(form);
             return request;
@@ -275,32 +286,64 @@
             buildCharts(response);
         }
 
-        function monitor(){
+        function monitor() {
             var monitor = $('#monitor')[0];
-            if(monitor.value == '监 控'){
+            if (monitor.value == '监 控') {
                 monitor.value = '监控中';
                 monitor.className = 'btn btn-danger';
                 //TODO
                 /*
-                1.调用主机的Shell脚本,去执行远程目标机器上的Shell脚本
+                 1.调用主机的Shell脚本,去执行远程目标机器上的Shell脚本
                  */
             }
-            else if(monitor.value == '监控中'){
+            else if (monitor.value == '监控中') {
                 monitor.value = '监 控';
                 monitor.className = 'btn btn-primary';
                 //TODO
                 /*
-                1.关闭远程目标机的Shell脚本
-                2.kill掉远程目标机的shell脚本的进程
-                3.将目标机上的文件拷贝到主机目录
+                 1.关闭远程目标机的Shell脚本
+                 2.kill掉远程目标机的shell脚本的进程
+                 3.将目标机上的文件拷贝到主机目录
                  */
             }
         }
 
-        function configServers(){
-            var temp = "width="+990+",height="+500+",left="+500+",top="+500+",scrollbars=1,toolbar=no,location=no,directories=no,status=no,resizable=yes";
-            var w = window.open('configService','cc',temp);
+        function configServers() {
+            var temp = "width=" + 990 + ",height=" + 500 + ",left=" + 500 + ",top=" + 500 + ",scrollbars=1,toolbar=no,location=no,directories=no,status=no,resizable=yes";
+            var w = window.open('configService', 'cc', temp);
         }
+
+        function show() {
+            $('#exampleModal').modal('show');
+        }
+
+        $(document).ready(function () {
+            $('#exampleModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget) // Button that triggered the modal
+                var recipient = button.data('whatever') // Extract info from data-* attributes
+                // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+                // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+                var modal = $(this)
+
+                var aj = $.ajax({
+                    url: 'configService',
+                    type: 'GET',
+                    cache: false,
+                    async: false,
+                    success: function (data) {
+                        modal.find('#serverCheckbox').html(data)
+                    },
+                    error: function () {
+                        alert('error')
+                    }
+                });
+
+
+                modal.find('.modal-title').text('New message to ' + recipient)
+                modal.find('.modal-body input').val(recipient)
+            })
+        });
+
 
     </script>
 </head>
@@ -334,7 +377,11 @@
             <td><input type="button" class="btn btn-primary" value="全选" onclick="selectOption('all')"></td>
             <td><input type="button" class="btn btn-primary" value="全不选" onclick="selectOption('unall')"></td>
             <td><input type="button" id="monitor" class="btn btn-primary" value="监 控" onclick="monitor()"></td>
-            <td><input type="button" class="btn btn-primary" value="服务器配置" onclick="configServers()"></td>
+            <td>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
+                        data-whatever="@mdo">服务器配置
+                </button>
+            </td>
         </tr>
         </tbody>
     </table>
@@ -344,5 +391,27 @@
 <div id="pgfree" style="min-width: 800px;height: 400px"></div>
 <div id="pgscankAndPgscandAndPgsteal" style="min-width: 800px;height: 400px"></div>
 <div id="vmeff" style="min-width: 800px;height: 400px"></div>
+
+
+<!--弹出浮层的代码 -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">服务器配置</h4>
+            </div>
+            <div class="modal-body" id="serverCheckbox">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>

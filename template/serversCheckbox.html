@@ -1,0 +1,13 @@
+<form>
+    <div class="checkbox">
+        {% for ip in ipList.keys()%}
+        <label>
+            {% if ipList[ip] == 'Y' %}
+            <input type="checkbox" name="server" checked="1">{{ip}}
+            {% else %}
+            <input type="checkbox" name="server">{{ip}}
+            {% end %}
+        </label>
+        {% end %}
+    </div>
+</form>
