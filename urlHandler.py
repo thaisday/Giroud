@@ -26,12 +26,16 @@ class showHandler1(tornado.web.RequestHandler):
 
 class getDataHandler1(tornado.web.RequestHandler):
     def post(self):
-        startTime = self.get_argument('startTime')
-        endTime = self.get_argument('endTime')
+        startTime = self.get_argument('startTime')[-8:0];
+        endTime = self.get_argument('endTime')[-8:0];
+        print startTime
+        print endTime
         try:
             df = pd.read_csv(r'/Users/KiddoMa/Documents/pgpginout.csv',encoding='utf-8')
             name_list = [r'times',r'pgpgin',r'pgpgout',r'fault',r'majflt',r'pgfree',r'pgscank',r'pgscand',r'pgsteal',r'vmeff']
             d = dict()
+            # df1 = df[df["times"]>startTime]
+            # df2 = df1[df1["times"]<endTime]
             for name in name_list:
                 d[name] = df[name].tolist()
             self.write(json.dumps(d))

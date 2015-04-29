@@ -5,6 +5,7 @@ __author__ = 'KiddoMa'
 import sys
 
 from urlHandler import *
+from configServicesHandler import *
 
 reload(sys)
 
@@ -14,4 +15,5 @@ url = [
     (r'/result1',showHandler1),
     (r'/getdata',getDataHandler),
     (r'/getdata1',getDataHandler1),
+    (r'/configService',getServersHandler)
 ]

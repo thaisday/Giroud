@@ -1,0 +1,28 @@
+<serverLists>
+    <servers>
+        <server>
+            <ip>10.65.212.11</ip>
+            <status>Y</status>
+        </server>
+        <server>
+            <ip>10.65.212.12</ip>
+            <status>Y</status>
+        </server>
+        <server>
+            <ip>10.65.212.13</ip>
+            <status>Y</status>
+        </server>
+        <server>
+            <ip>10.65.212.14</ip>
+            <status>N</status>
+        </server>
+        <server>
+            <ip>10.65.212.15</ip>
+            <status>N</status>
+        </server>
+        <server>
+            <ip>10.65.212.16</ip>
+            <status>Y</status>
+        </server>
+    </servers>
+</serverLists>

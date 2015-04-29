@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <script src="http://cdn.hcharts.cn/jquery/jquery-1.8.3.min.js"></script>
+</head>
+<body>
+<table border="1">
+    <thead>
+    <tr>
+        <td></td>
+        <td></td>
+    </tr>
+    </thead>
+    <tbody>
+    {% for ip in ipList.keys()%}
+    <tr>
+        <td>
+            <!--{{ip}}<br/>-->
+            {% if ipList[ip] == 'Y' %}
+            <input type="checkbox" name="server" checked="1">{{ip}}
+            {% else %}
+            <input type="checkbox" name="server">{{ip}}
+            {% end %}
+        </td>
+    </tr>
+    {% end %}
+    </tbody>
+</table>
+
+
+</body>
+</html>
