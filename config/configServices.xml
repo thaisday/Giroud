@@ -14,11 +14,11 @@
         </server>
         <server>
             <ip>10.65.212.14</ip>
-            <status>N</status>
+            <status>Y</status>
         </server>
         <server>
             <ip>10.65.212.15</ip>
-            <status>N</status>
+            <status>Y</status>
         </server>
         <server>
             <ip>10.65.212.16</ip>
