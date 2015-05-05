@@ -1,0 +1,57 @@
+<head>
+    <script type="application/javascript">
+        function select(flag, name) {
+            var checkboxNames = document.getElementsByName(name);
+            for (var i in checkboxNames) {
+                checkboxNames[i].checked = flag;
+            }
+        }
+
+        function save() {
+            var checkboxes = document.getElementsByName('server');
+            var dict = {};
+            for (i in checkboxes) {
+                if (checkboxes[i].checked == 1) {
+                    dict[checkboxes[i].value] = 'Y';
+                }
+                else if (checkboxes[i].checked == 0) {
+                    dict[checkboxes[i].value] = 'N';
+                }
+            }
+            var save = $.ajax({
+                url: 'configService',
+                type: 'POST',
+                async: false,
+                data: dict
+            });
+
+        }
+    </script>
+</head>
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+            aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title" id="selectServersLabel">选择服务器</h4>
+</div>
+<div class="modal-body" id="serverCheckbox">
+    <form>
+        <div class="checkbox">
+            {% for ip in ipList.keys()%}
+            <label>
+                {% if ipList[ip] == 'Y' %}
+                <input type="checkbox" name="server" checked="1" value="{{ip}}">{{ip}}</input>
+                {% else %}
+                <input type="checkbox" name="server" value="{{ip}}">{{ip}}</input>
+                {% end %}
+            </label>
+            {% end %}
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <!--TODO 全选和全不选,做到一个按钮里去-->
+    <button type="button" class="btn btn-default" onclick="select(0,'server')">全不选</button>
+    <button type="button" class="btn btn-primary" onclick="select(1,'server')">全选</button>
+    <!--<button type="button" class="btn btn-primary" onclick="edit()">编辑</button>-->
+    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="save()">保存</button>
+</div>
