@@ -11,24 +11,24 @@
 
             var checkboxes = document.getElementsByName('server');
             var dict = {};
-            for (i in checkboxes){
-                if(checkboxes[i].checked == 1){
-                    dict[checkboxes[i].value]='Y';
+            for (i in checkboxes) {
+                if (checkboxes[i].checked == 1) {
+                    dict[checkboxes[i].value] = 'Y';
                 }
-                else if(checkboxes[i].checked == 0){
-                    dict[checkboxes[i].value]='N';
+                else if (checkboxes[i].checked == 0) {
+                    dict[checkboxes[i].value] = 'N';
                 }
             }
             var save = $.ajax({
                 url: 'configService',
                 type: 'POST',
                 async: false,
-                data:dict
+                data: dict
             });
 
         }
 
-        function edit(){
+        function edit() {
             ;
         }
 
