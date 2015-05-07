@@ -4,7 +4,7 @@ from xml.etree import ElementTree
 
 def test():
     try:
-        root = ElementTree.fromstring(open('./config/configServices.xml').read())
+        root = ElementTree.fromstring(open('./config/Services.xml').read())
 
         for name in root.find('servers').getchildren():
             print name.getchildren()[0].text

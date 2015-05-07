@@ -3,22 +3,45 @@ __author__ = 'KiddoMa'
 
 
 from xml.etree import ElementTree as ET
+from xml.etree.ElementTree import Element
+
 
 try:
-    tree = ET.parse("../config/configServices.xml")
+    tree = ET.parse("../config/Services.xml")
     root = tree.getroot()
 except Exception as e:
     print e
 
-elements = root.find("servers").findall("server")
+servers = root.find("servers")
+print servers
+children = servers.getchildren()
+print children
 
-for eachEle in elements:
-    print eachEle[1].text
-    eachEle[1].text = "Y"
+# servers.remove(children[0])
+server = Element(tag='server',attrib={})
 
-tree.write("../config/configServices.xml")
+ip = Element(tag='ip',attrib={})
+ip.text = '111.222.333.4444'
 
-print "================="
+status = Element(tag='status',attrib={})
+status.text = 'Y'
 
-for eachEle in elements:
-    print eachEle[1].text
+
+server.append(ip)
+server.append(status)
+servers.append(server)
+tree.write("../config/Services.xml")
+print children
+#
+# elements = root.find("servers").findall("server")
+#
+# for eachEle in elements:
+#     print eachEle[1].text
+#     eachEle[1].text = "Y"
+#
+# tree.write("../config/Services.xml")
+#
+# print "================="
+#
+# for eachEle in elements:
+#     print eachEle[1].text

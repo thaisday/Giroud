@@ -1,0 +1,17 @@
+{
+  "server": [
+    {
+      "id": "1",
+      "ip": "10.10.10.1",
+      "monitorStatus": "Y",
+      "status": "1"
+    },
+    {
+      "id": "2",
+      "ip": "10.10.10.3",
+      "monitorStatus": "N",
+      "status": "1"
+    }
+  ]
+}
+

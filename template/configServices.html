@@ -1,5 +1,23 @@
 <head>
     <script type="application/javascript">
+        function commit() {
+            var servers = document.getElementsByName('server')
+            var dict = {};
+
+            //map方法查看下
+            var array = servers.map(function (data) {
+                return data.value;
+            })
+            dict['servers'] = array;
+
+            var commit = $.ajax({
+                url: 'configService',
+                type: 'POST',
+                data : dict,
+                cache: false,
+                async: false
+            });
+        }
     </script>
 </head>
 <div class="modal-header">
@@ -8,20 +26,18 @@
     <h4 class="modal-title" id="configServersLabel">配置服务器</h4>
 </div>
 <div class="modal-body" id="serverCheckbox">
-    <table class="table table-hover">
+    <table class="table table-condensed">
         <tr>
             <th>服务器IP</th>
         </tr>
         {% for ip in ipList.keys()%}
         <tr>
-            <td>{{ip}}}</td>
+            <td><input type="text" class="form-control" placeholder="Text input" name="server" value="{{ip}}"></td>
         </tr>
+        {% end %}
     </table>
 </div>
 <div class="modal-footer">
     <!--TODO 全选和全不选,做到一个按钮里去-->
-    <!--<button type="button" class="btn btn-default" onclick="select(0,'server')">全不选</button>-->
-    <!--<button type="button" class="btn btn-primary" onclick="select(1,'server')">全选</button>-->
-    <!--<button type="button" class="btn btn-primary" onclick="edit()">编辑</button>-->
-    <!--<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="save()">保存</button>-->
+    <button type="button" class="btn btn-primary" onclick="commit()">确定</button>
 </div>

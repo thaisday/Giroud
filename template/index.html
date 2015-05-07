@@ -308,33 +308,40 @@
             }
         }
 
-        function configServers() {
-            var temp = "width=" + 990 + ",height=" + 500 + ",left=" + 500 + ",top=" + 500 + ",scrollbars=1,toolbar=no,location=no,directories=no,status=no,resizable=yes";
-            var w = window.open('configService', 'cc', temp);
-        }
-
+        $(document).ready(function () {
+            $('#selectServers').on('show.bs.modal', function (event) {
+                var modal = $(this)
+                var aj = $.ajax({
+                    url: 'selectServer',
+                    type: 'GET',
+                    cache: false,
+                    async: false,
+                    success: function (data) {
+                        modal.find('#selectserversDiv').html(data)
+                    },
+                    error: function () {
+                        alert('error')
+                    }
+                });
+            });
+        });
 
         $(document).ready(function () {
-            $('#exampleModal').on('show.bs.modal', function (event) {
-                //var button = $(event.relatedTarget) // Button that triggered the modal
-                //var recipient = button.data('whatever') // Extract info from data-* attributes
-                // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-                // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+            $('#configServers').on('show.bs.modal', function (event) {
                 var modal = $(this)
-
                 var aj = $.ajax({
                     url: 'configService',
                     type: 'GET',
                     cache: false,
                     async: false,
                     success: function (data) {
-                        modal.find('#serversDiv').html(data)
+                        modal.find('#configServersDiv').html(data)
                     },
                     error: function () {
                         alert('error')
                     }
                 });
-            })
+            });
         });
 
 
@@ -350,39 +357,40 @@
         </thead>
         <tbody>
         <tr>
-            <td>开始时间:</td>
-            <td><input type="text" name="startTime" class="ui_timepicker" value=""></td>
-            <td>结束时间:</td>
-            <td><input type="text" name="endTime" class="ui_timepicker" value=""></td>
+            <td>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#selectServers">选择服务器
+                </button>
+            </td>
+            <td>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#configServers">配置服务器
+                </button>
+            </td>
+            <td></td>
+            <td></td>
             <td></td>
         </tr>
-        <tr id="checkboxGroup">
-            <td style="width: 20%"><input type="checkbox" value="pgpg">pgpgin/s & pgpgout/s</td>
-            <td style="width: 20%"><input type="checkbox" value="faultAndMajflt">fault/s & majflt/s</td>
-            <td style="width: 20%"><input type="checkbox" value="pgfree">pgfree/s</td>
-            <td style="width: 20%"><input type="checkbox" value="pgscankAndPgscandAndPgsteal">pgscank/s & pgscand/s &
-                pgsteal/s
-            </td>
-            <td style="width: 20%"><input type="checkbox" value="vmeff">%vmeff</td>
-        </tr>
         <tr>
-            <td><input type="button" class="btn btn-primary" value="查看数据" onclick="createTable()"></td>
-            <td><input type="button" id="monitor" class="btn btn-primary" value="监 控" onclick="monitor()"></td>
             <td>
-                <button type="button" class="btn btn-primary">选择VMSTAT监控参数
+                <button type="button" class="btn btn-primary">选择VMSTAT监控参数</button>
             </td>
             <td>
                 <button type="button" class="btn btn-primary">选择SAR监控参数</button>
             </td>
-
-            <td>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">选择服务器
-                </button>
-            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><input type="button" class="btn btn-primary" value="查看数据" onclick="createTable()"></td>
+            <td><input type="button" id="monitor" class="btn btn-primary" value="监 控" onclick="monitor()"></td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
         </tbody>
     </table>
 </div>
+
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
     <!--这段代码可以通过后台的模板来产生,然后发送给前台-->
     <div class="panel panel-default">
@@ -408,14 +416,24 @@
 <div id="vmeff" style="min-width: 800px;height: 400px"></div>
 
 
-<!--弹出浮层的代码 -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<!--弹出选择服务器的浮层的代码 -->
+<div class="modal fade" id="selectServers" tabindex="-1" role="dialog" aria-labelledby="selectServersLabel"
      aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content" id="serversDiv">
+        <div class="modal-content" id="selectserversDiv">
         </div>
     </div>
 </div>
+
+<!--弹出配置服务器的浮层的代码 -->
+<div class="modal fade" id="configServers" tabindex="-1" role="dialog" aria-labelledby="configServersLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" id="configServersDiv">
+        </div>
+    </div>
+</div>
+
 
 </body>
 </html>

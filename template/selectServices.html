@@ -11,19 +11,26 @@
             var checkboxes = document.getElementsByName('server');
             var dict = {};
             for (i in checkboxes) {
-                if (checkboxes[i].checked == 1) {
+                if (checkboxes[i].checked == true) {
                     dict[checkboxes[i].value] = 'Y';
                 }
-                else if (checkboxes[i].checked == 0) {
+                else if (checkboxes[i].checked == false) {
                     dict[checkboxes[i].value] = 'N';
                 }
             }
+
+            var data = {'servers':JSON.stringify(dict)};
+
             var save = $.ajax({
-                url: 'configService',
+                url: 'selectServer',
                 type: 'POST',
                 async: false,
-                data: dict
+                data: data
             });
+
+        }
+
+        function change(){
 
         }
     </script>
@@ -36,12 +43,12 @@
 <div class="modal-body" id="serverCheckbox">
     <form>
         <div class="checkbox">
-            {% for ip in ipList.keys()%}
+            {% for server in serversList['server']%}
             <label>
-                {% if ipList[ip] == 'Y' %}
-                <input type="checkbox" name="server" checked="1" value="{{ip}}">{{ip}}</input>
+                {% if server['monitorStatus'] == 'Y' %}
+                <input type="checkbox" name="server" checked="1" value="{{server['ip']}}">{{server['ip']}}</input>
                 {% else %}
-                <input type="checkbox" name="server" value="{{ip}}">{{ip}}</input>
+                <input type="checkbox" name="server" value="{{server['ip']}}">{{server['ip']}}</input>
                 {% end %}
             </label>
             {% end %}
