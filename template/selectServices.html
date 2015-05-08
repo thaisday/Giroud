@@ -7,7 +7,7 @@
             }
         }
 
-        function save() {
+        function save1() {
             var checkboxes = document.getElementsByName('server');
             var dict = {};
             for (i in checkboxes) {
@@ -25,14 +25,54 @@
                 url: 'selectServer',
                 type: 'POST',
                 async: false,
-                data: data
+                data: data,
+                success : function(data){
+
+                }
             });
 
         }
 
-        function change(){
 
+        var serversData;
+        function save(){
+            //data是收集的选择的服务器的数据
+
+            var saveSelectServers = $.ajax({
+                url : 'servers',
+                type : 'post',
+                async : 'false',
+                data : data
+            });
         }
+
+        //当页面加载完成之后
+        //在执行请求去生成页面里面的东西
+        $(document).ready(function(){
+            var servers = $.ajax({
+                url : 'servers',
+                type : 'get',
+                async : 'false',
+                success : function(data){
+                    //保存成全局变量,等修改之后,用全局变量提交
+                    serversData = data;
+                    //拿到的data只是纯数据流
+                    //需要再次请求一个url,生成对应的模板
+                    var html = $.ajax({
+                        url : 'selectServersTemplate',
+                        type: 'post',
+                        async : 'false',
+                        data : data,
+                        success : function(data){
+                            //此时拿到的data是一个通过模板渲染好得HTML字符流
+                            //只要设置对应的DIV的innerHtml就可以了
+                            $('#checkboxField').innerHTML = data.responseText;
+                        }
+                    });
+                }
+            });
+        });
+
     </script>
 </head>
 <div class="modal-header">
@@ -42,7 +82,7 @@
 </div>
 <div class="modal-body" id="serverCheckbox">
     <form>
-        <div class="checkbox">
+        <div class="checkbox" id="checkboxField">
             {% for server in serversList['server']%}
             <label>
                 {% if server['monitorStatus'] == 'Y' %}
